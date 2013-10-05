@@ -7,6 +7,7 @@ var API_FILE = 'results.json';
 
 // serve static content from the root folder
 app.use(express.static(__dirname));
+app.use(express.bodyParser());
 app.enable('jsonp callback');
 
 // set some generic headers
@@ -29,6 +30,10 @@ app.get('/api', function(req, res) {
       res.send(req.query.callback + '(' + JSON.stringify(file) + ')');
     }
   });
+});
+
+app.post('/save', function(req, res) {
+  console.log('SAVED: show_id: ' + req.body.show_id + ', region_id: ' + req.body.region_id);
 });
 
 app.listen(PORT);
