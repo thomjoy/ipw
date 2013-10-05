@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Landing Page</title>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"></link>
+  <link rel='stylesheet' href="styles/style.css"></link>
+</head>
+<body>
+  <div class="container ">
+    <div class="row">
+      <img class="col-md-3 centered" src="//test-live-webapp.s3.amazonaws.com/logo.png" />
+      <form role="form" class="col-md-3 centered">
+        <div class="form-group">
+          <label for="show">Select Show</label>
+          <select class="text-center" id="show" name="show"></select>
+        </div>
+        <div class="form-group">
+          <label for="region">Select Region</label>
+          <select class="text-center" id="region" name="region"></select>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="bower_components/jquery/jquery.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script>
+    var jsonPData = $.ajax({
+      url: 'https://test-live-webapp.s3.amazonaws.com/json.js',
+      dataType: 'jsonp',
+      jsonpCallback: 'results'
+    });
+
+    var localJson = $.ajax({
+      url: '//localhost:3333/api',
+      dataType: 'jsonp',
+      jsonpCallback: 'results'
+    });
+
+    function saveData(obj) {
+      if( !window.localStorage ) return;
+
+      console.log('Saving: ' + JSON.stringify(obj));
+      window.localStorage.setItem('formData', JSON.stringify(obj));
+    }
+
+    function getData(key) {
+      if( !window.localStorage ) return;
+
+      var obj = window.localStorage.getItem(key)
+      console.log('Retrieving: ' + JSON.stringify(obj));
+      return(JSON.parse(obj));
+    }
+
+    $.when( localJson ).then(function(resp) {
+      var resp = JSON.parse(resp);
+      var rules = resp.show_regions,
+          allRegions = [],
+          allShows = [],
+          $regionSelect = $('#region'),
+          $showSelect = $('#show');
+
+      // Build select + options
+      resp.shows.forEach(function(show) {
+        var o = $('<option/>')
+          .val(show.id)
+          .data('show-id', show.id)
+          .html(show.label_i18n);
+        o.appendTo('#show')
+        allShows.push(o);
+      });
+
+      resp.regions.forEach(function(region) {
+        var o = $('<option/>')
+          .val(region.id)
+          .data('region-id', region.id)
+          .html(region.label_i18n);
+        o.appendTo('#region')
+        allRegions.push(o);
+      });
+
+      var savedData = getData('formData');
+      if( savedData ) {
+        $showSelect.val(savedData.show_id);
+        $regionSelect.val(savedData.region_id);
+      }
+
+      $('#show').on('change', function(evt) {
+        var showId = $("option:selected", this).val();
+        var showAvailableInRegions = _.pluck(_.where(rules, {show_id: showId}), 'region_id');
+
+        $("#region")
+          .html(allRegions) //reset dropdown list
+          .find('option').filter(function(){
+            var regionId = $(this).val();
+            return (_.indexOf(showAvailableInRegions, regionId) === -1) ? true : false;
+          }).remove();  // remove
+
+        saveData({
+          show_id: $('#show option:selected').val(),
+          region_id: $('#region option:selected').val()
+        });
+      });
+
+      // Removed because there are is no intersection of (region, shows) between 
+      // the two shows...
+      $('#region').on('change', function(evt) {
+        /*
+        var regionId = $("option:selected", this).val();
+        var showsForRegion = _.pluck(_.where(rules, {region_id: regionId}), 'show_id');
+
+        $("#show")
+          .html(allShows) //reset dropdown list
+          .find('option').filter(function(){
+            var showId = $(this).val();
+            return (_.indexOf(showsForRegion, showId) === -1) ? true : false;
+          }).remove();  // remove
+        */
+
+        saveData({
+          show_id: $('#show option:selected').val(),
+          region_id: $('#region option:selected').val()
+        });
+      });
+
+      $('button').on('click', function() {
+        console.log('Click');
+        saveData({
+          show_id: $('#show option:selected').val(),
+          region_id: $('#region option:selected').val()
+        });
+      });
+    }); 
+  </script>
+
+</body>
+</html>

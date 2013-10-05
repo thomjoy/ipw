@@ -1,0 +1,7 @@
+img { display: block; }
+select { display: block; }
+.centered {
+  float: none;
+  margin: 0 auto;
+}
+form { padding-top: 10px; }
