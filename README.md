@@ -2,8 +2,8 @@
 
 ```
 npm install 
-node api.js <PORT>
+node api.js
 ```
 
-Browse to http://localhost:<PORT>
+Browse to `http://localhost:3333`
 

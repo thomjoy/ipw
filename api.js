@@ -5,8 +5,11 @@ var app = express();
 var PORT = 3333;
 var API_FILE = 'results.json';
 
+// serve static content from the root folder
 app.use(express.static(__dirname));
+app.enable('jsonp callback');
 
+// set some generic headers
 var headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Credentials': true,
@@ -16,13 +19,11 @@ var headers = {
   'Content-Type': 'application/javascript'
 };
 
-app.enable('jsonp callback');
 app.get('/api', function(req, res) {
   res.set(headers);
   fs.readFile(path.join(__dirname, API_FILE), 'utf8', function(err, file) {
-    if (err) {
-      console.log('Error: ' + err);
-      return;
+    if( err ){
+      throw(err);
     }
     else {
       res.send(req.query.callback + '(' + JSON.stringify(file) + ')');
