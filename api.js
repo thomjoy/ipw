@@ -20,6 +20,7 @@ var headers = {
   'Content-Type': 'application/javascript'
 };
 
+// JSON endpoint
 app.get('/api', function(req, res) {
   res.set(headers);
   fs.readFile(path.join(__dirname, API_FILE), 'utf8', function(err, file) {
@@ -32,6 +33,7 @@ app.get('/api', function(req, res) {
   });
 });
 
+// Fake save endpoint
 app.post('/save', function(req, res) {
   console.log('SAVED: show_id: ' + req.body.show_id + ', region_id: ' + req.body.region_id);
   
@@ -43,4 +45,4 @@ app.post('/save', function(req, res) {
 });
 
 app.listen(PORT);
-console.log("Express server listening on port %d in %s mode", PORT, app.settings.env);
+console.log("Server listening on port %d in %s mode", PORT, app.settings.env);
