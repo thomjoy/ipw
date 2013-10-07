@@ -11,12 +11,11 @@
 <body>
   <div id="main-content" class="container">
     <div class="row">
-      <div class="col-xs-6 col-sm-4 col-md-4 centered">
-        <h1>Landing Page</h1>
+      <div id="img-container" class="col-xs-6 col-sm-6 col-md-7 centered">
         <img class="img-responsive" src="//test-live-webapp.s3.amazonaws.com/logo.png" />
       </div>
-      <div class="col-xs-6 col-sm-4 col-md-4 centered">
-        <form role="form" class="">
+      <div class="col-xs-6 col-sm-6 col-md-7 centered">
+        <form id="show-region-form" role="form" class="">
           <div class="form-group">
             <label for="show">Show</label>
             <select class="form-control text-center" id="show" name="show"></select>
@@ -25,7 +24,7 @@
             <label for="region">Region</label>
             <select class="form-control text-center" id="region" name="region"></select>
           </div>
-          <button class="btn btn-primary">Submit</button>
+          <button id="save" class="btn btn-primary btn-block">Save</button>
         </form>
       </div>
     </div>

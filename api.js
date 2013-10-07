@@ -34,6 +34,12 @@ app.get('/api', function(req, res) {
 
 app.post('/save', function(req, res) {
   console.log('SAVED: show_id: ' + req.body.show_id + ', region_id: ' + req.body.region_id);
+  
+  // simulate a save
+  setTimeout((function() {
+    res.header('Content-Type', 'application/json');
+    res.send({msg: 'Your selections have been saved.'});
+  }), 1000);
 });
 
 app.listen(PORT);

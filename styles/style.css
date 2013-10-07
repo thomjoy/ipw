@@ -1,6 +1,8 @@
 #main-content { margin: 0 auto; }
-img { margin: 0 auto; }
+#img-container { margin-top: 4%; }
+img { margin: 1.5% auto; }
 select { display: block; }
 .centered { float: none; margin: 0 auto; }
 form { padding-top: 3%; }
 label { margin-bottom: 2px; }
+button { margin-bottom: 10px; }

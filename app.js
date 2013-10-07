@@ -1,4 +1,7 @@
-var jsonData = $.ajax({
+(function() {
+  'use strict';
+
+  var jsonData = $.ajax({
       url: '//localhost:3333/api',
       dataType: 'jsonp',
       jsonpCallback: 'results'
@@ -50,6 +53,7 @@ $.when( jsonData ).then(function(response) {
     buildOption(show, '#show', allShows);
   });
 
+  // Check for any locally stored data
   if( savedData ) {
     $showSelect.val(savedData.show_id);
     $regionSelect.val(savedData.region_id);
@@ -69,8 +73,8 @@ $.when( jsonData ).then(function(response) {
       }).remove();  // remove
 
     saveData({
-      show_id: getSelected('show'),
-      region_id: getSelected('region')
+      show_id:    getSelected('show'),
+      region_id:  getSelected('region')
     });
   });
 
@@ -90,14 +94,15 @@ $.when( jsonData ).then(function(response) {
     */
 
     saveData({
-      show_id: getSelected('show'),
-      region_id: getSelected('region')
+      show_id:    getSelected('show'),
+      region_id:  getSelected('region')
     });
   });
 
-  $('button').on('click', function(evt) {
+  // Button
+  $('#save').on('click', function(evt) {
     evt.preventDefault();
-    console.log('POST');
+    var $saveBtn = $(this);
     
     $.ajax({
       url: 'http://localhost:3333/save',
@@ -105,7 +110,15 @@ $.when( jsonData ).then(function(response) {
       data: {
         show_id:    getSelected('show'),
         region_id:  getSelected('region')
+      },
+      beforeSend: function() {
+        $saveBtn.html('Saving...');
       }
+    }).done(function( resp ){
+      $saveBtn.removeClass('btn-primary').addClass('btn-success').html(resp.msg);
+      setTimeout(function() {
+        $saveBtn.removeClass('btn-success').addClass('btn-primary').html('Save');
+      }, 3500);
     });
 
     saveData({
@@ -114,3 +127,4 @@ $.when( jsonData ).then(function(response) {
     });
   });
 });
+})();
