@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HTML Landing Page</title>
+  <title>Landing Page</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"></link>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"></link>
   <link rel="stylesheet" href="styles/style.css"></link>
 </head>
 <body>
   <div id="main-content" class="container">
     <div class="row">
-      <div class="col-md-3 centered">
+      <div class="col-xs-4 centered">
+        <h1>Landing Page</h1>
         <img class="img-responsive" src="//test-live-webapp.s3.amazonaws.com/logo.png" />
       </div>
-      <div class="col-md-3 centered">
+      <div class="col-xs-4 centered">
         <form role="form" class="">
           <div class="form-group">
             <label for="show">Select Show</label>
-            <select class="text-center" id="show" name="show"></select>
+            <select class="form-control text-center" id="show" name="show"></select>
           </div>
           <div class="form-group">
             <label for="region">Select Region</label>
-            <select class="text-center" id="region" name="region"></select>
+            <select class="form-control text-center" id="region" name="region"></select>
           </div>
-          <button class="btn btn-default">Submit</button>
+          <button class="btn btn-primary">Submit</button>
         </form>
       </div>
     </div>
