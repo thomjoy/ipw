@@ -12,7 +12,7 @@ var jsonData = $.ajax({
     getData = function(key) {
       if( !window.localStorage ) return;
 
-      var obj = window.localStorage.getItem(key)
+      var obj = window.localStorage.getItem(key);
       console.log('Retrieving: ' + JSON.stringify(obj));
       return(JSON.parse(obj));
     },
@@ -25,9 +25,9 @@ var jsonData = $.ajax({
     };
 
 // Wait until the data arrives...
-$.when( jsonData ).then(function(resp) {
-  var resp = JSON.parse(resp);
-  var rules = resp.show_regions,
+$.when( jsonData ).then(function(response) {
+  var resp = JSON.parse(response),
+      rules = resp.show_regions,
       allRegions = [],
       allShows = [],
       $regionSelect = $('#region'),
@@ -98,6 +98,7 @@ $.when( jsonData ).then(function(resp) {
   $('button').on('click', function(evt) {
     evt.preventDefault();
     console.log('POST');
+    
     $.ajax({
       url: 'http://localhost:3333/save',
       method: 'POST',
@@ -112,4 +113,4 @@ $.when( jsonData ).then(function(resp) {
       region_id: getSelected('region')
     });
   });
-}); 
+});
