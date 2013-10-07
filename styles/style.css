@@ -3,8 +3,8 @@ html, body{ height: 100%; margin: 0; padding: 0 }
 .row { height: 100%; width: 100%; display: table-cell; vertical-align: middle; }
 
 #main-content { margin: 0 auto; }
-#img-container { margin-top: 4%; }
-img { margin: 1.5% auto; }
+#img-container { }
+img { margin: 0 auto; }
 select { display: block; }
 .centered { float: none; margin: 0 auto; }
 form { padding-top: 3%; }
